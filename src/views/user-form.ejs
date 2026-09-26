@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media - Nuevo usuario</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('partials/sidebar') %>
+  <main class="main">
+    <div class="content" style="max-width: 640px;">
+      <div class="form-card fade-in">
+        <h1>Nuevo usuario</h1>
+        <p class="form-subtitle">Regístrate para empezar a publicar en el feed.</p>
+
+        <form action="/users" method="POST">
+          <div class="form-grid">
+            <div class="field">
+              <label>Nombre</label>
+              <input type="text" name="name" placeholder="Sarai" required>
+            </div>
+            <div class="field">
+              <label>Apellido</label>
+              <input type="text" name="lastName" placeholder="Soto" required>
+            </div>
+            <div class="field full">
+              <label>Correo</label>
+              <input type="email" name="email" placeholder="tucorreo@tecsup.edu.pe" required>
+            </div>
+            <div class="field">
+              <label>Edad</label>
+              <input type="number" name="age" min="18" placeholder="18" required>
+            </div>
+            <div class="field">
+              <label>Teléfono</label>
+              <input type="text" name="phoneNumber" placeholder="Opcional">
+            </div>
+            <div class="field full">
+              <label>Contraseña</label>
+              <input type="password" name="password" placeholder="Mínimo 8 caracteres" minlength="8" required>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn">Crear usuario</button>
+            <a href="/posts/new" class="btn secondary">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

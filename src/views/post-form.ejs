@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media - <%= post ? "Editar" : "Nuevo" %> post</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('partials/sidebar') %>
+  <main class="main">
+    <div class="content" style="max-width: 600px;">
+      <div class="form-card fade-in">
+        <h1><%= post ? "Editar post" : "Nuevo post" %></h1>
+        <p class="form-subtitle"><%= post ? "Actualiza los datos de tu publicación." : "Comparte algo nuevo con la comunidad." %></p>
+
+        <form action="<%= post ? '/posts/' + post._id + '/update' : '/posts' %>" method="POST">
+          <% if (!post) { %>
+            <div class="field">
+              <label style="justify-content:center;">Autor</label>
+              <div class="picker" id="authorPicker">
+                <% users.forEach(u => { %>
+                  <button type="button" class="picker-chip" data-id="<%= u._id %>">
+                    <span class="avatar-sm"><%= u.name.charAt(0) + u.lastName.charAt(0) %></span>
+                    <%= u.name %> <%= u.lastName %>
+                  </button>
+                <% }) %>
+              </div>
+              <input type="hidden" name="userId" id="userIdInput" required>
+            </div>
+          <% } %>
+
+          <div class="field">
+            <label>Título</label>
+            <input type="text" name="title" placeholder="Un título llamativo" value="<%= post ? post.title : '' %>" minlength="5" maxlength="30" required>
+          </div>
+
+          <div class="field">
+            <label>Contenido</label>
+            <textarea name="content" placeholder="¿Qué quieres compartir?" minlength="10" required><%= post ? post.content : '' %></textarea>
+          </div>
+
+          <div class="field">
+            <label>Hashtags</label>
+            <input type="text" name="hashtags" placeholder="tecsup, mongodb, node" value="<%= post && post.hashtags ? post.hashtags.join(', ') : '' %>">
+            <span class="field-hint">Sepáralos por coma.</span>
+          </div>
+
+          <div class="field">
+            <label>URL de imagen</label>
+            <input type="text" name="imageUrl" placeholder="https://..." value="<%= post ? (post.imageUrl || '') : '' %>">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn"><%= post ? "Guardar cambios" : "Publicar" %></button>
+            <a href="/posts" class="btn secondary">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const picker = document.getElementById('authorPicker');
+    if (picker) {
+      const input = document.getElementById('userIdInput');
+      picker.addEventListener('click', (e) => {
+        const chip = e.target.closest('.picker-chip');
+        if (!chip) return;
+        picker.querySelectorAll('.picker-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        input.value = chip.dataset.id;
+      });
+    }
+  </script>
+</body>
+</html>
